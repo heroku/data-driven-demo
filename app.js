@@ -54,19 +54,20 @@ var client = new twitter({
 });
 
 client.stream('statuses/filter', {track: 'rimas dreamforce'}, function(stream) {
-  stream.on('data', function(tweet) {
-    console.log(tweet);
-    var short_tweet = {
-      tweet_id: tweet.id_str,
-      username: tweet.user.name,
-      screen_name: tweet.user.screen_name,
-      tweet: tweet.text,
-      profile_url: tweet.user.profile_image_url,
-      created_at: moment(tweet.timestamp_ms, 'x')
+  stream.on('data', function(msg) {
+    var tweet = {
+      tweet_id: msg.id_str,
+      username: msg.user.name,
+      screen_name: msg.user.screen_name,
+      tweet: msg.text,
+      profile_url: msg.user.profile_image_url,
+      created_at: moment(msg.timestamp_ms, 'x')
     };
-    console.log(short_tweet);
-    io.sockets.emit('data',short_tweet);
-    //db.query("INSERT into tweets () values ()", );
+    io.sockets.emit('data', tweet);
+    db.query(
+      "INSERT into tweets (tweet_id, username, screen_name, tweet, profile_url, created_at) values ($1, $2, $3, $4, $5, $6)",
+      [tweet.tweet_id, tweet.username, tweet.screen_name, tweet.tweet, tweet.profile_url, tweet.created_at.format("YYYY-MM-DD HH:mm")]
+    );
   });
 });
 
