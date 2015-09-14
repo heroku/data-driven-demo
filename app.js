@@ -55,9 +55,11 @@ var client = new twitter({
 
 client.stream('statuses/filter', {track: 'rimas dreamforce'}, function(stream) {
   stream.on('data', function(tweet) {
+    console.log(tweet);
     var short_tweet = {
       tweet_id: tweet.id_str,
       username: tweet.user.name,
+      screen_name: tweet.user.screen_name,
       tweet: tweet.text,
       profile_url: tweet.user.profile_image_url,
       created_at: moment(tweet.timestamp_ms, 'x')

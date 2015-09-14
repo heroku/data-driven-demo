@@ -3,9 +3,18 @@
   <link rel="stylesheet" href="bootstrap.min.css"/>
   <script src="jquery.js"></script>
   <script src="bootstrap.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 
   <link rel="stylesheet" href="style.css"/>
-  <script src="script.js"></script>
+  <script>
+    var socket = io();
+
+    socket.on('data', function(msg) {
+      $('.twitter-stream').prepend(
+        "\<div class='tweet'>\<blockquote class='twitter-tweet'><p>" + msg.tweet + "<\/p>\n- " + msg.username + " (@" + msg.screen_name + ")\n\<\/blockquote>"
+      );
+    });
+  </script>
 </head>
 <body>
   <div class="panel">
@@ -15,13 +24,7 @@
   <div class="content-wrapper">
     <div class="container">
       <div class="row">
-        <div class="col-sm-12 tweet-stream">
-          <div class="tweet">
-            <blockquote class="twitter-tweet">
-              <p>This is flipping awesome</p>
-              - this is rimas (@rimas)
-            </blockquote>
-          </div>
+        <div class="col-sm-12 twitter-stream">
         </div>
       </div>
     </div>
