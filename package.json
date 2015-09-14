@@ -1,0 +1,22 @@
+{
+  "name": "data-driven-demo",
+  "version": "1.0.0",
+  "description": "data driven demo streaming app",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "debug": "^2.2.0",
+    "morgan": "^1.6.1",
+    "moment": "^2.10.6",
+    "pg": "^4.4.1",
+    "socket.io": "^1.3.6",
+    "twitter": "^1.2.5",
+    "hbs": "^3.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rimas Silkaitis <rimas@heroku.com>",
+  "license": "ISC"
+}
