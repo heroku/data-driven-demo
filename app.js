@@ -53,7 +53,7 @@ var client = new twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
-client.stream('statuses/filter', {track: 'rimas dreamforce'}, function(stream) {
+client.stream('statuses/filter', {track: '#DF15'}, function(stream) {
   stream.on('data', function(msg) {
     var tweet = {
       tweet_id: msg.id_str,
