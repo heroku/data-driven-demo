@@ -64,7 +64,7 @@ client.stream('statuses/filter', {track: 'beer'}, function(stream) {
       created_at: moment(msg.timestamp_ms, 'x')
     };
     io.sockets.emit('data', tweet);
-    console.log(tweet);
+    console.log("%j", { tweet_id: tweet.id, tweet: tweet.tweet, username: tweet.username });
     db.query(
       "INSERT into tweets (tweet_id, username, screen_name, tweet, profile_url, created_at) values ($1, $2, $3, $4, $5, $6)",
       [tweet.tweet_id, tweet.username, tweet.screen_name, tweet.tweet, tweet.profile_url, tweet.created_at.format("YYYY-MM-DD HH:mm")]
