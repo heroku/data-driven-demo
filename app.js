@@ -21,7 +21,7 @@ var express   = require('express')
 var server = http.createServer(app)
   , io     = socket_io(server);
 db.connect();
-app.use(logger('dev'));
+app.use(logger('common'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -53,7 +53,7 @@ var client = new twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
-client.stream('statuses/filter', {track: '#DF15'}, function(stream) {
+client.stream('statuses/filter', {track: 'SFDC'}, function(stream) {
   stream.on('data', function(msg) {
     var tweet = {
       tweet_id: msg.id_str,
@@ -64,6 +64,7 @@ client.stream('statuses/filter', {track: '#DF15'}, function(stream) {
       created_at: moment(msg.timestamp_ms, 'x')
     };
     io.sockets.emit('data', tweet);
+    console.log(tweet);
     db.query(
       "INSERT into tweets (tweet_id, username, screen_name, tweet, profile_url, created_at) values ($1, $2, $3, $4, $5, $6)",
       [tweet.tweet_id, tweet.username, tweet.screen_name, tweet.tweet, tweet.profile_url, tweet.created_at.format("YYYY-MM-DD HH:mm")]
