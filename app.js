@@ -53,7 +53,7 @@ var client = new twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
-client.stream('statuses/filter', {track: 'SFDC'}, function(stream) {
+client.stream('statuses/filter', {track: 'beer'}, function(stream) {
   stream.on('data', function(msg) {
     var tweet = {
       tweet_id: msg.id_str,
