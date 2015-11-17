@@ -10,7 +10,8 @@ var express   = require('express')
   , twitter   = require('twitter')
   , pg        = require('pg')
   , db        = new pg.Client(process.env.DATABASE_URL)
-  , moment    = require('moment');
+  , moment    = require('moment')
+  , term      = 'beer';
 
 
 /*********************************************************
@@ -26,6 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+if(process.env.SEARCH_TERM != "") {
+  term = process.env.SEARCH_TERM;
+}
 
 /*********************************************************
  *
@@ -33,7 +37,7 @@ app.set('view engine', 'hbs');
  *
  */
 app.get('/', function(req, res) {
-  res.render('index');
+  res.render('index', { term: term });
 });
 
 io.on('connection', function(socket) {
@@ -53,7 +57,7 @@ var client = new twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET
 });
 
-client.stream('statuses/filter', {track: 'beer'}, function(stream) {
+client.stream('statuses/filter', {track: term}, function(stream) {
   stream.on('data', function(msg) {
     var tweet = {
       tweet_id: msg.id_str,
