@@ -1,0 +1,42 @@
+{
+  "name": "Data Driven Demo",
+  "description": "Does various data related things. Stream information to kafka",
+  "keywords": [
+    "heroku kafka",
+    "data-driven",
+    "heroku postgres",
+    "postgres"
+  ],
+  "website": "https://data.heroku.com",
+  "repository": "https://github.com/heroku/data-driven-demo",
+  "scripts": {
+    "postdeploy": "./init_env"
+  },
+  "env": {
+    "SEARCH_TERM": {
+      "description": "What do you want to search on in the twitter api",
+      "value": "beer"
+    },
+    "CONSUMER_KEY": {
+      "description": "Twitter Developer API consumer key",
+      "value": "NEEDS_TO_BE_SET"
+    },
+    "CONSUMER_SECRET": {
+      "description": "Twitter Developer API consumer secret",
+      "value": "NEEDS_TO_BE_SET"
+    },
+    "ACCESS_TOKEN": {
+      "description": "Twitter Developer API accesss token",
+      "value": "NEEDS_TO_BE_SET"
+    },
+    "ACCESS_TOKEN_SECRET": {
+      "description": "Twitter Developer API access token secret",
+      "value": "NEEDS_TO_BE_SET"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:standard-0",
+    "heroku-kafka:alpha-dev",
+    "heroku-cassandra:alpha-dev"
+  ]
+}
