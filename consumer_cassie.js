@@ -34,7 +34,7 @@ for(var i = 0; i < cassandra_uri.length; i++) {
 }
 
 var authProvider  = new cassandra.auth.PlainTextAuthProvider(username, password)
-  , client        = new cassandra.Client({ contactPoints: contact_points, authProvider: authProvider });
+  , client        = new cassandra.Client({ contactPoints: contact_points, authProvider: authProvider, keyspace: 'examples' });
 
 //
 // The magic happens here
@@ -47,8 +47,8 @@ client.connect(function(err) {
 
   // Create the keyspace and table if it doesn't already exist
   //
-  client.execute("CREATE KEYSPACE IF NOT EXISTS examples WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '3' }");
-  client.execute("CREATE TABLE IF NOT EXISTS examples.tweets (tweet_id, username text, screen_name text, tweet text, profile_url text, created_at timestamp, PRIMARY KEY (username, created_at))");
+  //client.execute("CREATE KEYSPACE IF NOT EXISTS examples WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '3' }");
+  client.execute("CREATE TABLE IF NOT EXISTS tweets (tweet_id, username text, screen_name text, tweet text, profile_url text, created_at timestamp, PRIMARY KEY (username, created_at))");
 
   console.log('Connected to cluster with %d host(s): %j', client.hosts.length, client.hosts.keys());
   console.log('Keyspaces: %j', Object.keys(client.metadata.keyspaces));
