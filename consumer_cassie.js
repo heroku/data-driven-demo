@@ -71,10 +71,12 @@ client.connect(function(err) {
 
   // Stream all of the data from kafka into Cassandra
   //
-  consumer.on('message', function(msg) {
-    var query    = "INSERT INTO examples.tweets (tweet_id, username, screen_name, tweet, profile_url, created_at) values (?, ?, ?, ?, ?, ?)";
+  consumer.on('message', function(message) {
+    var query    = "INSERT INTO tweets (tweet_id, username, screen_name, tweet, profile_url, created_at) values (?, ?, ?, ?, ?, ?)";
+    var msg      = JSON.parse(message.value);
     var new_date = moment(msg.created_at, 'x');
     var params   = [msg.tweet_id, msg.username, msg.screen_name, msg.tweet, msg.profile_url, new_date.format("YYYY-MM-DD HH:mm")];
+    console.log(msg.tweet_id, "inserted tweet");
     client.execute(query, params, { prepare: true }, checkIt);
   });
 });
